@@ -66,7 +66,7 @@ class BuyEquipment:
         """
         return self.initialOwnershipCost/expectedHours
 
-    def FinancingCost(self, interest, period):
+    def FinancingCost(self, interest, perio):
 
 
 
