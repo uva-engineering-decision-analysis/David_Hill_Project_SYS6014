@@ -45,8 +45,6 @@ $\alpha_{6}$ = Buy a used bulldozer with cash
 
 $\alpha_{6}$ = Buy a used bulldozer with loan
 
-
-
 ## Decision Problem: State Space
 
 We define the state space $\ X$ as the set of possible outcomes.
@@ -70,21 +68,51 @@ Let $\theta_{1}$, $\theta_{2}$ ,..., $\theta_{n} \in \Theta$
 
 where:
 
-$\theta_{1}$ = The probability of a catastrophic mechanical failure in the next 2 years
+$\theta_{1}$ = The probability of a catastrophic mechanical failure in the next 5 years
 
-$\theta_{2}$ = The probability of a catastrophic mechanical failure in the next 4 years
+$\theta_{2}$ = The probability of a catastrophic mechanical failure in the next 10 years
 
-$\theta_{3}$ = The probability of a catastrophic mechanical failure in the next 6 years
+$\theta_{3}$ = The probability of a catastrophic mechanical failure in the next 15 years
 
-$\theta_{4}$ = The probability of a catastrophic mechanical failure in the next 8 years
+## Poisson Distribution
 
-$\theta_{5}$ = The probability of a catastrophic mechanical failure in the next 10 years 
+Expresses the probability of a given number of events occurring in a fixed interval of time or space if these events occur with a known constant mean rate and independently of the time since the last event.
+
+A discrete random variable $\chi$ is said to have a Poisson distribution with parameter $\lambda$ > 0, if, for $\chi$ = 0, 1, 2, ..., the probability mass function of $\chi$ is given by:
+
+$P(\chi = \ X) = \frac{\lambda^{\chi} \times e^{-\lambda}}{\chi !}$
+
+where:
+
+$\mu = \lambda$
+
+$\sigma^{2} = \lambda$
+
+$e = 2.71828...$
+
+
+
+## Data
+
+* Difficult to find bulldozer failure data
+
+* Generate data sets using python based on used bulldozer sellers
+
+* Bulldozer price is mainly based on work hours, age plays a small factor
+
+* Data set represents bulldozers that filed in a year
+
+* With this data set we can calculate the failure rate and lambda values for our poisson function
+
+## Data: Cont'd
+
+![Generated dataset](./images/Dataset_2020-04-14.jpg)
 
 ## Decision Problem: Example
 
 According to collected bulldozer failure data, the average failure rate for a bulldozer with 50,000 work hours is 0.7 catastrophic failures per year. Failures follow a Poisson distribution. What is the probability that this bulldozer will experience a catastrophic failure in the next 5 years?
 
-$\ X$ = number of failures expected = 1
+$\chi$ = number of failures expected = 1
 
 $\lambda = .7 * 5 = 3.5$
 
@@ -102,6 +130,12 @@ Thus, within a 5 year period, a bulldozer with 50,000 work hours has a 10.6% cha
 ## Value
 
 * The value of this tool is in minimizing the cost of ownership for the decision maker. The tool helps decion makers weigh the pros and cons of renting, buying new, and buying used and helps balance risk v.s monetary benefit to accomplish the organization's goals.
+
+
+
+* $Payoff_{risk} = P(\chi = 1) * TotalCost$
+
+* The lower the number the better as we want to minimize risk.
 
 ## The End
 
