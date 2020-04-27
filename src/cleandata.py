@@ -6,7 +6,6 @@ clean folder.
 @author David Hill, Jr.
 '''
 # importing the csv module 
-import datetime
 import csv 
 import random
 import os
@@ -14,10 +13,20 @@ from stat import S_IREAD, S_IRGRP, S_IROTH
   
 def main():
 
-    filename = '../data/raw/USED_DOZER_DATA_1588016153.631536.csv'
+    print("""
+    ______      _          _____ _                            
+    |  _  \    | |        /  __ \ |                           
+    | | | |__ _| |_ __ _  | /  \/ | ___  __ _ _ __   ___ _ __ 
+    | | | / _` | __/ _` | | |   | |/ _ \/ _` | '_ \ / _ \ '__|
+    | |/ / (_| | || (_| | | \__/\ |  __/ (_| | | | |  __/ |   
+    |___/ \__,_|\__\__,_|  \____/_|\___|\__,_|_| |_|\___|_|   
+                                                                    
+        """)
+
+    filename = '../data/raw/RAW_DOZER_DATA.csv'
     clean_data = []
     raw_file = csv.DictReader(open(filename, mode='r'))
-
+    print("=================================================RUNNING=====================================================")
     for row in raw_file:
         additem = True
         if("US" not in row["Ask_Price"]):
@@ -27,8 +36,7 @@ def main():
         if(additem):
             clean_data.append(row)
 
-    timestamp = str(datetime.datetime.now().timestamp())
-    outfile = "../data/clean/CLEANED_DOZER_DATA_"+ timestamp +".csv"
+    outfile = "../data/clean/CLEANED_DOZER_DATA" + ".csv"
 
     heading = ['Name', 'WorkHrs', "Ask_Price"]
 
@@ -45,7 +53,7 @@ def main():
         
     # Make file Read-Only
     os.chmod(filename, S_IREAD|S_IRGRP|S_IROTH)
-
+    print("[DONE]")
 
 if __name__ == "__main__":
     main()

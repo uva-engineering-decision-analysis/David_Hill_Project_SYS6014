@@ -147,7 +147,7 @@ $\chi_{pn}$ & Not Operational
 
 # Future Work
 
-In future work this project can be built out into a web tool with an inuitive interface. If expanded in this way, it could grow into a software product that could be sold to companies. A better data set collected from bulldozer repair operations could further improve our tool to provide more accurate predictions.
+In future work this project can be built out into a web tool with an inuitive interface. If expanded in this way, it could grow into a software product that could be sold to companies. A better data set collected from bulldozer repair operations could further improve our tool to provide more accurate predictions. Furthermore, our data generation could be improved through a deeper cleaning in which anomalous entries are removed (such as an 20 year old bulldozer with low  work-hours).
 
 # Acknowledgements
 

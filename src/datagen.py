@@ -4,22 +4,47 @@ This script reads cleaned bulldozer data and analyzes it to generate fake bulldo
 
 @author David Hill, Jr.
 '''
-import datetime
 import csv 
 import random
 
 def main():
-    filename = '../data/clean/CLEANED_DOZER_DATA_1588016784.097396.csv'
+    print("""
+    (                                            
+    )\ )            )        (                   
+    (()/(      )  ( /(    )   )\ )      (         
+    /(_))  ( /(  )\())( /(  (()/(     ))\  (     
+    (_))_   )(_))(_))/ )(_))  /(_))_  /((_) )\ )  
+    |   \ ((_)_ | |_ ((_)_  (_)) __|(_))  _(_/(  
+    | |) |/ _` ||  _|/ _` |   | (_ |/ -_)| ' \)) 
+    |___/ \__,_| \__|\__,_|    \___|\___||_||_|  
+                                              
+    """)
+    filename = '../data/clean/CLEANED_DOZER_DATA.csv'
     
     clean_file = csv.DictReader(open(filename, mode='r'))
     dataset = []
     for row in clean_file:
         dataset.append(row)
+
+    print("=================================================RUNNING=====================================================")
+    new_data = GenerateData(10000, dataset)
+
+    heading = ['Name', 'WorkHrs', "Ask_Price"]
+
+    outfile = "../data/generated/GENERATED_DOZER_DATA"".csv"
     
-    print(GetGlobalWkhrMin(dataset))
-    print(GetGlobalWkhrMax(dataset))
-    print(GetGlobalPriceMax(dataset))
-    print(GetGlobalPriceMin(dataset))
+    with open(outfile, 'w') as csvfile: 
+
+        # creating a csv dict writer object 
+        writer = csv.DictWriter(csvfile, fieldnames = heading) 
+        
+        # writing headers (field names) 
+        writer.writeheader() 
+        
+        # writing data rows 
+        writer.writerows(new_data) 
+    print("[DONE]")
+
 
     
 
@@ -68,8 +93,54 @@ def GetGlobalPriceMin(dataset):
     return pricemin
 
 
-def GetPriceRange(minwkhr, maxwkhr):
-    return
+def GetPriceRange(minwkhr, maxwkhr, dataset):
+    subset = []
+    for row in dataset:
+        wkhrs = row['WorkHrs'].replace(' hrs', '')
+        wkhrs = int(wkhrs.replace(',', ''))
+        if(wkhrs >= minwkhr and wkhrs <= maxwkhr):
+            subset.append(row)
+    
+    return (GetGlobalPriceMin(subset), GetGlobalPriceMax(subset))
+
+def GenerateData(size, dataset):
+    new_data = []
+    for i in range(size):
+        line = {}
+        line['Name'] = 'crawler_' + str(i)
+
+        maxwkhrs = GetGlobalWkhrMax(dataset)
+        minwkhrs = GetGlobalWkhrMin(dataset)
+        new_machine_wkhrs = random.randrange(minwkhrs, maxwkhrs)
+        line['WorkHrs'] = new_machine_wkhrs
+
+        if(new_machine_wkhrs >= 100 and new_machine_wkhrs <= 3000):
+            price_range = GetPriceRange(100, 3000, dataset)
+            new_machine_price = random.randrange(price_range[0], price_range[1])
+            line['Ask_Price'] = new_machine_price
+            new_data.append(line)
+
+        if(new_machine_wkhrs >= 3000 and new_machine_wkhrs <= 6000):
+            price_range = GetPriceRange(3000, 6000, dataset)
+            new_machine_price = random.randrange(price_range[0], price_range[1])
+            line['Ask_Price'] = new_machine_price
+            new_data.append(line)
+
+        if(new_machine_wkhrs >= 6000 and new_machine_wkhrs <= 9000):
+            price_range = GetPriceRange(6000, 9000, dataset)
+            new_machine_price = random.randrange(price_range[0], price_range[1])
+            line['Ask_Price'] = new_machine_price
+            new_data.append(line)
+
+        if(new_machine_wkhrs >= 9000 and new_machine_wkhrs <= 12000):
+            price_range = GetPriceRange(9000, 12000, dataset)
+            new_machine_price = random.randrange(price_range[0], price_range[1])
+            line['Ask_Price'] = new_machine_price
+            new_data.append(line)
+
+        print("Entries generated: ", i, end="\r")
+    return new_data
+    
 
 
 
