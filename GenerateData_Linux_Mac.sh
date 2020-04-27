@@ -5,7 +5,7 @@ function pause(){
    read -p "$*"
 } 
 
-cd src
+cd src/
 python dozerscraper.py
 python cleandata.py
 python datagen.py
