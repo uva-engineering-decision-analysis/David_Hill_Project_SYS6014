@@ -131,8 +131,6 @@ Thus, within a 5 year period, a bulldozer with 50,000 work hours has a 10.6% cha
 
 * The value of this tool is in minimizing the cost of ownership for the decision maker. The tool helps decion makers weigh the pros and cons of renting, buying new, and buying used and helps balance risk v.s monetary benefit to accomplish the organization's goals.
 
-
-
 * $Payoff_{risk} = P(\chi = 1) * TotalCost$
 
 * The lower the number the better as we want to minimize risk.
