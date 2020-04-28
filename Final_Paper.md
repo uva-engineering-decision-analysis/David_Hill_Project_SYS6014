@@ -13,11 +13,14 @@ fontfamily:
 header-includes:
 - \setlength\parindent{24pt}
 - \usepackage{placeins}
+- \usepackage{graphicx}
+- \graphicspath{ {./images/} }
 ---
 
 \maketitle
 \pagenumbering{arabic}
 \setcounter{page}{1}
+
 
 # Abstract
 **The goal of this project is to create a data-driven decision making tool to enable real-estate development business owners to make the optimal decision for acquiring heavy equipment such as bulldozers and tractors. Given the high cost of such equiptment, it is important to make a decision that is not only cost effective, but also of low risk. This paper describes a decision analysis tool that augments a classic rent vs finance vs buy analysis for a given piece of heavy equiptment with a prediction tool that predicts the chance of catastrophic failure during the time periods of use.** 
@@ -145,7 +148,7 @@ Parameter Space              &                                                  
 \end{table}
 
 # Assumptions
-If there is one thing i have learned through my studies of Engineering, it is that educated assumptions are okay as long as they are stated, thus the purpose of this section is to address built-in assumptions in the decision tool. Seeing as this tool is designed for the targeted audience of stakeholders in small-medium sized real-estate development companies, the assumptions reflect the needs of that audience. The assumptions are as follows:
+If there is one thing I have learned through my studies of Engineering, it is that educated assumptions are okay as long as they are stated, thus the purpose of this section is to address built-in assumptions in the decision tool. Seeing as this tool is designed for the targeted audience of stakeholders in small-medium sized real-estate development companies, the assumptions reflect the needs of that audience. The assumptions are as follows:
 
 * The predictive decision tool assumes that the failure data passed in contains a set of used bulldozers that failed after a 1584 work hour period. 
 
@@ -229,20 +232,74 @@ Discounted CMR = 3.500% (Jul – Dec 2018 rate) / 1.25 = 2.80%. [3]
 
 WHPY = Working hours Per Year found in appendix B [3]
 
+To determine the financial payoff, we use the formula for Net Present Value which is defined as:
+
+$NPV = \frac{(CashFlow)}{(1+r)^t}$ [4]
+
+Where:
+
+* i is the initial investment
+
+* r is the 
+
+* t is the number of time periods
+
+An easier way to express it is:
+
+$NPV = TVECF - TVIC$ [4]
+
+Where:
+
+TVECF=Today’s value of the expected cash flows [4]
+
+TVIC=Today’s value of invested cash​ [4]
+
 ## Failure Risk Analysis
 This goal of this part of the decision tool is to predict the probability of failure of a bulldozer or piece of equipment that makes the most financial sense. This tool should be run after the rent v.s buy analysis is conducted. This tool starts by asking the decision maker a series of questions. Based on the parameters collected from the decision maker, the tool compares the parameters to market-driven, generated bulldozer data to determine the failure rate of a machine that matches those parameters. It then calculates the lambda values and poisson probabalities for failure over the period of ownership and period in which failure is acceptable per the user's specification. 
 
 ## Data
-The data generation process for this project involved 3 distinct parts; web-scraping, cleaning, and data generation. After much research and advice from industry, it was clear during the research that there are almost no datasets that show bulldozer failures. The data that is available through used bulldozer listing sites is censored data in the sense that the only bulldozers being represented are working ones. Given these constraints, it was natural to use market data from working bulldozers to generate artificial datasets to base predictions on. 
+The data generation process for this project involved 3 distinct parts; web-scraping, cleaning, and data generation. After much research and advice from industry, it was clear during the research that there are almost no datasets that show bulldozer failures. The data that is available through used bulldozer listing sites is censored data in the sense that the only bulldozers being represented are working ones. Given these constraints, it was natural to use market data from working bulldozers to generate artificial datasets to base predictions on.
 
-# Example
+### Data Scraping
+The tool begins scraping the data from a used bulldozer listing site. It structures the data in the form of a dictionary list. An example of the raw data is depicted in figure 1. Once scraped, the data is stored in a **read only** csv file.
+
+\begin{figure}[h!]
+\centering
+\includegraphics{Raw_Data}
+\caption{Raw Data Sample}
+\end{figure}
+
+### Data Cleaning
+It is then run through a data cleaning program that reads the raw data and removes missing price and workhour entries and stores that file as a read only file as well.
+
+### Data Generation
+The data generation process involves reading in the cleaned data and finding global minimum and maximum values for work hours and price for the used bulldozers. Based on the observed ranges and work hour to price correlations, the program generates a set of 10,000 bulldozers and stores that data in a csv file.
+
+\begin{figure}[h!]
+\centering
+\includegraphics{Gen_Data}
+\caption{Generated Data Sample}
+\end{figure}
+
 
 # Results
 
+## Failure Prediction
+
+\begin{figure}[h!]
+\centering
+\includegraphics[scale=.75]{Tool_output}
+\caption{Output of failure prediction tool}
+\end{figure}
+
+To test the decision tool, we input the case of a bulldozer that has 8000 workhours on its meter. We expect to get an extra 5000 hours of use out of it during the time of ownership. We assume the decision maker accepts the possibility of a mechanical failure in the next 2500 work hours. The program then calculates that for a bulldozer this worn, there is a 12% chance of failure within a 2500 work hour period and a 21% chance of a failure in the period of 5000 work hours. This is depicted in figure 3.
+
+
 # Conclusions
+With the development of this tool we have provided a decion making framework for the acqusition of heavy equipment. This tool provides value because it helps the decision maker weigh financial risks and risk of failure. With this tool, stakeholders of small to medium sized real estate development companies can make a more informed acqisition decision which protects their bottom line and their ROI.
 
 # Future Work
-In future work this project can be built out into a web tool with an inuitive interface. If expanded in this way, it could grow into a software product that could be sold to companies. A better data set collected from bulldozer repair operations could further improve our tool to provide more accurate predictions. Furthermore, our data generation could be improved through a deeper cleaning in which anomalous entries are removed (such as an 20 year old bulldozer with low  work-hours). The ability to pull bulldozer data from multiple sources would also provide more accurate predictions as well.
+In future work this project can be built out into a web tool with an inuitive interface. If expanded in this way, it could grow into a software product that could be sold to companies. A better data set collected from bulldozer repair operations could further improve our tool to provide more accurate predictions. Furthermore, our data generation could be improved through a deeper cleaning in which anomalous entries are removed or dealt with differently (such as equipment that falls outside of a normal price given work hours). The ability to pull bulldozer data from multiple sources would also provide more accurate predictions as well.
 
 # Acknowledgements
 
@@ -253,4 +310,6 @@ I would like to acknowledge Dr. Arthur Small for teaching this wonderful class a
 
 [2] R. Misheloff, “How Much Does It Cost to Finance or Lease a Bulldozer?,” Equipment Leasing and Small Business Loans with Smarter Finance USA. [Online]. Available: https://www.smarterfinanceusa.com/blog/bulldozer-financing-leasing. [Accessed: 26-Apr-2020].
 
-[3] USACE
+[3] “Construction Equipment Ownership and Operating Expense Schedule Region II,” Construction Equipment Ownership and Operating Expense Schedule Region II. US Army Corps of Engineers, Washington, DC, 2018.
+
+[4] W. Kenton, “Net Present Value (NPV),” Investopedia, 05-Feb-2020. [Online]. Available: https://www.investopedia.com/terms/n/npv.asp. [Accessed: 28-Apr-2020]. 
