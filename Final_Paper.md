@@ -20,7 +20,7 @@ header-includes:
 \setcounter{page}{1}
 
 # Abstract
-The goal of this project is to create a data-driven decision making tool to enable real-estate development business owners to make the optimal decision for acquiring heavy equipment such as bulldozers and tractors. Given the high cost of such equiptment, it is important to make a decision that is not only cost effective, but also of low risk. This paper describes a decision analysis tool that augments a classic rent vs finance vs buy analysis for a given piece of heavy equiptment with a prediction tool that predicts the chance of catastrophic failure during the time periods of use. 
+**The goal of this project is to create a data-driven decision making tool to enable real-estate development business owners to make the optimal decision for acquiring heavy equipment such as bulldozers and tractors. Given the high cost of such equiptment, it is important to make a decision that is not only cost effective, but also of low risk. This paper describes a decision analysis tool that augments a classic rent vs finance vs buy analysis for a given piece of heavy equiptment with a prediction tool that predicts the chance of catastrophic failure during the time periods of use.** 
 
 # Introduction
 The real-estate industry, being one of the oldest in our economy is ripe for a digital transformation. With new technologies being rapidly developed to provide data driven insights every day, it is imperative that new tools be developed for the real-estate industry as well. For small to medium-sized real-estate development businesses the acquisition of tools and equipment is key to generating, and maintaining business as these tools enable the completion of projects. Generally, the acquisition decisions for heavy equipment (such as bulldozers and tractors) are done by the owners or stakeholders of the businesses. These decisions are often made with limited financial resources, which makes good decision making very important. Poor acquisition decisions can be very crippling to a small business as it can lead to personnel injury, and loss of capital due to equiptment failure.
@@ -107,37 +107,120 @@ $\alpha_{5}$ & Finance used      \\ \hline
 
 
 ## State Space
-We define the state space $\ X$ as the set of possible outcomes. In the case of our decision tool $\chi_{tn}$ is the operational state of the machine within a period of work hours p. For example, $\chi_{p1}$ is the operational state of a bulldozer within the first 1000 work hours in which the operational state is either operational or not operational.
+We define the state space $\ X$ as the set of possible outcomes. In the case of this project we assume that under average construction conditions a bulldozer will work for 1,584 hours. This is derived by the following:
 
-Let $\chi_{p1}$, $\chi_{p2}$ ,..., $\chi_{pn} \in \ X$
+$22 working days/month  *  9 working months * 8 hours/day = 1584 hours/year$
 
-Where:
+To account for discrete periods of work hours we let:
+
+$\chi_{1}$, $\chi_{2}$ ,..., $\chi_{n} \in \ X$
+
+Where $\chi$ is the number of expected failures in a period of 1584 work hours. For the purposes of our tool $\chi =1$ because we expect exactly 1 failure to happen within given work hour periods.
 
 \begin{table}[h!]
 \centering
 \begin{tabular}{ll}
 \hline
-State Space &                 \\ \hline
-$\chi_{pn}$ & Operational     \\
-$\chi_{pn}$ & Not Operational
+Parameter Space            &                                                                       \\ \hline
+\multicolumn{1}{c}{$\chi_{n}$} & \multicolumn{1}{c}{Number of expected failures per  work hour period}
 \end{tabular}
 \caption{Set of states}
 \label{state-space}
 \end{table}
 
+## Parameter Space
+Our unobserved parameter is a function of lambda. Hence $\theta$ is the calculated chance of exactly one mechanical failure will happen within a give time period. Here we let:
 
+$\theta_{1}$, $\theta_{2}$ ,..., $\theta_{n} \in \Theta$
 
+\begin{table}[h!]
+\centering
+\begin{tabular}{ll}
+\hline
+Parameter Space              &                                                         \\ \hline
+\multicolumn{1}{c}{$\theta_{n}$} & \multicolumn{1}{c}{Probability of catastrophic failure}
+\end{tabular}
+\caption{Set of unobserved parameters}
+\label{state-space}
+\end{table}
 
+# Assumptions
+The purpose of this section is to address built-in assumptions in the decision tool. Seeing as this tool is designed for the targeted audience of stakeholders in small-medium sized real-estate development companies, the assumptions reflect the needs of that audience. The assumptions are as follows:
+
+* The predictive decision tool assumes that the failure data passed in contains a set of used bulldozers that failed after a 1584 work hour period. 
+
+* The tool also assumes that the failure rate of a bulldozer is based on similar bulldozers within the range of 500 work hours higher or lower than the actual bulldozer. For example, if a bulldozer with 1500 work hours is specified, it will be grouped with bulldozers with work hours between 1000 and 2000 to determine the failure rate.
+
+* It is also assumed that failure rate is based on a grouping of a certain type of bulldozer over the entire data set. For example if a dataset with a total of 10000 bulldozers has 5000 failed bulldozers with work hours between 1000 and 2000, then the failure rate of bulldozers in the range of 1000 and 2000 work hours is: $\frac{5000}{10000} = .05$
+
+* The failures follow a Poisson distribution.
 
 # Predictive Model
 
+## Distribution
+The statistical distribution used for our decision tool is the poisson distribution. After evaluating the geometric and negative binomial distributions, it seemed most natural to use the poisson distribution and consider the failure rate that determines our $\lambda$ in terms of work hour periods.
 
 # Value
+The underlying value of our decision tool is it's ability to reduce uncertainty for the decision maker. It enables them to make the most sound financial decision and also be informed as to what to expect in terms of reliability. With this tool, a decision maker can weigh the failure risks and financial risks in a way that is supported by market based data. Given this, our payoff is defined as a function of the financial benefit to the decision maker and the risk of the worst case scenario. The payoff function is defined as follows:
 
+$Payoff = NPV + Risk$
+
+Where NPV is the net present value of the optimal acquisition decision and Risk is the financial impact of the risk of failure.
 
 # Methodology
+The methodology to this project is two-fold. The first part is a Rent v.s Buy analysis that allows the user to input equipment rental and purchasing scenarios underdifferent cashflow assumptions. 
 
-## Data Generation
+## Rent v.s Buy Analysis
+For the rent v.s buy analysis there are a few essential calculations that must be highlighted. This part of the tool calculates payment costs over desired time periods as well as Net Present Value (NPV) and Facilities Capital Cost of Money (FCCM). FCCM is defined in the US Army Corps of Engineers Construction Equipment Ownership and Operating Expense Schedule for Region II which includes the state of Virginia. 
+
+The pivotal formulae defined in this expense schedule are as follows:
+
+$OwnershipRate/hr = DEPR/hr + FCCM/hr$ [3]
+
+DEPR - Depreciation as the straight-line method is used to compute depreciation [3].
+
+$DEPR/hr= \frac{[(TEV)(1-SLV)]-[(TCI)(TireCost)]}{LIFE}$ [3] 
+
+Where:
+
+TEV is the total equipment value found in table 2-1 [3]
+
+SLV is the salvage value from appendix D. [3]
+
+TCI is the tire cost index, which is determined by dividing the year of
+manufacture tire index by the present-year tire index. For table 2-1, the present year is
+2018 and the year of manufacture is 2015 (3 years old). These indices are listed as
+part of appendix E (see Economic Key (EK) 100, All Tires and Tubes). [3]
+
+Tire cost is the total tire and/or conveyor belt cost. The total tire cost is the
+sum of the cost of all front, drive, and trailing tires. The tire cost for rubber-tired
+equipment is based on tire values at the time the equipment was manufactured. [3]
+
+The LIFE is the economic life, which is based on the number of operating hours
+throughout the economic life of the equipment (see paragraph 2.15). Hours for LIFE are
+provided in appendix D. [3]
+
+$FCCM/hr= \frac{(TEV)(AVF)(DiscountedCMR)}{WHPY}$ [3]
+
+Where:
+
+$AverageValueFactor(AVF)= \frac{[[(N - 1)(1+ SLV)]+ 2]}{2N}$ [3]
+
+Number of Years (N) in Depreciation Period = $\frac{LIFE}{WHPY}$ [3]
+
+Discounted CMR = 3.500% (Jul – Dec 2018 rate) / 1.25 = 2.80%. [3]
+
+WHPY = Working hours Per Year found in appendix B [3]
+
+## Failure Risk Analysis
+
+
+
+
+
+## Data
+
+The data generation process for this project involved 3 distinct parts; web-scraping, cleaning, and data generation. After much research and advice from industry, it was clear during the research that there are almost no datasets that show bulldozer failures. The data that is available through used bulldozer listing sites is censored data in the sense that the only bulldozers being represented are working ones. Given these constraints, it was natural to use market data from working bulldozers to generate artificial datasets to base predictions on. 
 
 # Example
 
@@ -147,7 +230,7 @@ $\chi_{pn}$ & Not Operational
 
 # Future Work
 
-In future work this project can be built out into a web tool with an inuitive interface. If expanded in this way, it could grow into a software product that could be sold to companies. A better data set collected from bulldozer repair operations could further improve our tool to provide more accurate predictions. Furthermore, our data generation could be improved through a deeper cleaning in which anomalous entries are removed (such as an 20 year old bulldozer with low  work-hours).
+In future work this project can be built out into a web tool with an inuitive interface. If expanded in this way, it could grow into a software product that could be sold to companies. A better data set collected from bulldozer repair operations could further improve our tool to provide more accurate predictions. Furthermore, our data generation could be improved through a deeper cleaning in which anomalous entries are removed (such as an 20 year old bulldozer with low  work-hours). The ability to pull bulldozer data from multiple sources would also provide more accurate predictions as well.
 
 # Acknowledgements
 
@@ -157,3 +240,5 @@ I would like to acknowledge Dr. Arthur Small for teaching this wonderful class a
 [1] “Bulldozers Purchasing Guide,” Purchasing.com. [Online]. Available: https://www.purchasing.com/construction-equipment/bulldozers/purchasing-guide/index.html. [Accessed: 26-Apr-2020].
 
 [2] R. Misheloff, “How Much Does It Cost to Finance or Lease a Bulldozer?,” Equipment Leasing and Small Business Loans with Smarter Finance USA. [Online]. Available: https://www.smarterfinanceusa.com/blog/bulldozer-financing-leasing. [Accessed: 26-Apr-2020].
+
+[3] USACE

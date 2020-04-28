@@ -111,7 +111,9 @@ def GenerateData(size, dataset):
 
         maxwkhrs = GetGlobalWkhrMax(dataset)
         minwkhrs = GetGlobalWkhrMin(dataset)
+       
         new_machine_wkhrs = random.randrange(minwkhrs, maxwkhrs)
+        
         line['WorkHrs'] = new_machine_wkhrs
 
         if(new_machine_wkhrs >= 100 and new_machine_wkhrs <= 3000):
