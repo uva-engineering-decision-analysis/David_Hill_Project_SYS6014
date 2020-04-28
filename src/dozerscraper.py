@@ -101,7 +101,9 @@ def PageCrawler(links, database):
 
             line['Ask_Price'] = price
 
+            # store collected data
             database.append(line)
+            
             print("Items scraped: ", bulldozers_collected, end="\r")
     print("\n[DONE]")
 

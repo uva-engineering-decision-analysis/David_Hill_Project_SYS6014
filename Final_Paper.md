@@ -145,7 +145,7 @@ Parameter Space              &                                                  
 \end{table}
 
 # Assumptions
-The purpose of this section is to address built-in assumptions in the decision tool. Seeing as this tool is designed for the targeted audience of stakeholders in small-medium sized real-estate development companies, the assumptions reflect the needs of that audience. The assumptions are as follows:
+If there is one thing i have learned through my studies of Engineering, it is that educated assumptions are okay as long as they are stated, thus the purpose of this section is to address built-in assumptions in the decision tool. Seeing as this tool is designed for the targeted audience of stakeholders in small-medium sized real-estate development companies, the assumptions reflect the needs of that audience. The assumptions are as follows:
 
 * The predictive decision tool assumes that the failure data passed in contains a set of used bulldozers that failed after a 1584 work hour period. 
 
@@ -153,12 +153,29 @@ The purpose of this section is to address built-in assumptions in the decision t
 
 * It is also assumed that failure rate is based on a grouping of a certain type of bulldozer over the entire data set. For example if a dataset with a total of 10000 bulldozers has 5000 failed bulldozers with work hours between 1000 and 2000, then the failure rate of bulldozers in the range of 1000 and 2000 work hours is: $\frac{5000}{10000} = .05$
 
-* The failures follow a Poisson distribution.
+* The failures follow a Poisson distribution as we want to find the probability of exactly one failure happening in a period of work hours.
 
 # Predictive Model
 
 ## Distribution
 The statistical distribution used for our decision tool is the poisson distribution. After evaluating the geometric and negative binomial distributions, it seemed most natural to use the poisson distribution and consider the failure rate that determines our $\lambda$ in terms of work hour periods.
+
+### Poisson Distribution
+The Poisson Distribution expresses the probability of a given number of events occurring in a fixed interval of time or space if these events occur with a known constant mean rate and independently of the time since the last event.
+
+A discrete random variable $\chi$ is said to have a Poisson distribution with parameter $\lambda$ > 0, if, for $\chi$ = 0, 1, 2, ..., the probability mass function of $\chi$ is given by:
+
+$P(\chi = \ X) = \frac{\lambda^{\chi} \times e^{-\lambda}}{\chi !}$
+
+where:
+
+$\mu = \lambda$
+
+$\sigma^{2} = \lambda$
+
+$e = 2.71828...$
+
+> Note: $\chi$ will represent the number of expected occurances of an event happening in a time period (e.g. the probability that $\chi =4$ car accidents will happen in 3 weeks when the rate of car accidents is 1.5 per week
 
 # Value
 The underlying value of our decision tool is it's ability to reduce uncertainty for the decision maker. It enables them to make the most sound financial decision and also be informed as to what to expect in terms of reliability. With this tool, a decision maker can weigh the failure risks and financial risks in a way that is supported by market based data. Given this, our payoff is defined as a function of the financial benefit to the decision maker and the risk of the worst case scenario. The payoff function is defined as follows:
@@ -213,13 +230,9 @@ Discounted CMR = 3.500% (Jul – Dec 2018 rate) / 1.25 = 2.80%. [3]
 WHPY = Working hours Per Year found in appendix B [3]
 
 ## Failure Risk Analysis
-
-
-
-
+This goal of this part of the decision tool is to predict the probability of failure of a bulldozer or piece of equipment that makes the most financial sense. This tool should be run after the rent v.s buy analysis is conducted. This tool starts by asking the decision maker a series of questions. Based on the parameters collected from the decision maker, the tool compares the parameters to market-driven, generated bulldozer data to determine the failure rate of a machine that matches those parameters. It then calculates the lambda values and poisson probabalities for failure over the period of ownership and period in which failure is acceptable per the user's specification. 
 
 ## Data
-
 The data generation process for this project involved 3 distinct parts; web-scraping, cleaning, and data generation. After much research and advice from industry, it was clear during the research that there are almost no datasets that show bulldozer failures. The data that is available through used bulldozer listing sites is censored data in the sense that the only bulldozers being represented are working ones. Given these constraints, it was natural to use market data from working bulldozers to generate artificial datasets to base predictions on. 
 
 # Example
@@ -229,7 +242,6 @@ The data generation process for this project involved 3 distinct parts; web-scra
 # Conclusions
 
 # Future Work
-
 In future work this project can be built out into a web tool with an inuitive interface. If expanded in this way, it could grow into a software product that could be sold to companies. A better data set collected from bulldozer repair operations could further improve our tool to provide more accurate predictions. Furthermore, our data generation could be improved through a deeper cleaning in which anomalous entries are removed (such as an 20 year old bulldozer with low  work-hours). The ability to pull bulldozer data from multiple sources would also provide more accurate predictions as well.
 
 # Acknowledgements
