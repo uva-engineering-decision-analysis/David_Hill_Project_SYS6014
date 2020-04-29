@@ -26,4 +26,4 @@ The decision tool can also be run by clicking on the Decision tool shell script 
 ### Video
 To get some hands-on experience in the industry, I visited a construction site to see heavy equipment in action! you can watch the video ![here](https://www.youtube.com/watch?v=7tGSbd5JSy8)
 
-<iframe width="1274" height="724" src="https://www.youtube.com/embed/7tGSbd5JSy8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![SYS6040 Construction Site Visit](https://img.youtube.com/vi/7tGSbd5JSy8/0.jpg)](https://www.youtube.com/watch?v=7tGSbd5JSy8)
