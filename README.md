@@ -17,7 +17,7 @@ This project has the following dependencies:
 
 * LateX
 
-## Project Structure 
+### Project Structure 
 
 The final paper as well as the proposal and presentation can be found in the docs folder. The code can be found in the src folder. All data is stored in the data folder. The USCAE Construction Equipment Ownership and Operating Expense Schedule
 which should be used with the Rent vs Buy spreadsheet is in the reference folder.
